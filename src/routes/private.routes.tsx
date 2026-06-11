@@ -11,11 +11,10 @@ import EmployeesIcon from "@/assets/icons/employees.svg";
 import HomeIcon from "@/assets/icons/home.svg";
 import LogoutIcon from "@/assets/icons/logout.svg";
 import { ConfirmationModal } from "@/components/confirmation-modal";
-import AnalysesScreen from "@/screens/private/analyses";
-import AnalysisDetailsScreen from "@/screens/private/analysis-details";
-import CreateAnalysisScreen from "@/screens/private/create-analysis";
-import EditAnalysisScreen from "@/screens/private/edit-analysis";
-import PlaceholderScreen from "@/screens/private/placeholder";
+import AnalysesScreen from "@/screens/private/analysis/analyses";
+import AnalysisDetailsScreen from "@/screens/private/analysis/analysis-details";
+import CreateAnalysisScreen from "@/screens/private/analysis/create-analysis";
+import EditAnalysisScreen from "@/screens/private/analysis/edit-analysis";
 import ProfileScreen from "@/screens/private/profile";
 import { showToast } from "@/services/toast";
 import { useAuthenticationStore } from "@/stores/authentication";
@@ -49,7 +48,7 @@ const AnalysesStack = createNativeStackNavigator<AnalysesStackParamList>();
 function TabBarIcon({ icon: Icon, focused, color }: TabBarIconProps) {
   return (
     <View
-      className={`h-11 w-11 items-center justify-center rounded-sm ${
+      className={`h-11 w-11 items-center justify-center rounded-md ${
         focused ? "bg-[#EEF2FF]" : "bg-transparent"
       }`}
     >
@@ -104,7 +103,6 @@ export function PrivateRoutes() {
       setIsLoggingOut(true);
       await logout();
     } catch (error) {
-      showToast("Não foi possível sair da conta.");
       setIsLoggingOut(false);
     }
   }
@@ -163,7 +161,6 @@ export function PrivateRoutes() {
         />
         <Tab.Screen
           name="Logout"
-          component={PlaceholderScreen}
           listeners={{
             tabPress: (event) => {
               event.preventDefault();
@@ -178,7 +175,9 @@ export function PrivateRoutes() {
               );
             },
           }}
-        />
+        >
+          {() => null}
+        </Tab.Screen>
       </Tab.Navigator>
 
       <ConfirmationModal

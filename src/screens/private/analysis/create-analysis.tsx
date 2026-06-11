@@ -15,19 +15,19 @@ type CreateAnalysisScreenProps = NativeStackScreenProps<
 >;
 
 const defaultValues: CreateAnalysisFormData = {
-  title: "Análise AEP posto de trabalho teste",
-  company: "Empresa Teste Ltda.",
-  industrialPlant: "Planta Principal",
-  sector: "Produção",
-  workstation: "Operador de produção",
-  activity: "Operação de máquinas",
-  evaluator: "Avaliador Teste",
-  analysisDate: "11/06/2026",
-  acceptable: "40",
-  moderate: "25",
-  high: "20",
-  veryHigh: "10",
-  seriousAndImminent: "5",
+  title: "",
+  company: "",
+  industrialPlant: "",
+  sector: "",
+  workstation: "",
+  activity: "",
+  evaluator: "",
+  analysisDate: "",
+  acceptable: "",
+  moderate: "",
+  high: "",
+  veryHigh: "",
+  seriousAndImminent: "",
 };
 
 export default function CreateAnalysisScreen({

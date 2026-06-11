@@ -9,16 +9,12 @@ import { Routes } from "@/routes";
 import "@/styles/global.css";
 
 export default function App() {
-  const [fontsLoaded, fontError] = useFonts({
+  const [fontsLoaded] = useFonts({
     "Inter-Regular": require("./src/assets/fonts/Inter_18pt-Regular.ttf"),
     "Inter-Medium": require("./src/assets/fonts/Inter_18pt-Medium.ttf"),
     "Inter-SemiBold": require("./src/assets/fonts/Inter_18pt-SemiBold.ttf"),
     "Inter-Bold": require("./src/assets/fonts/Inter_18pt-Bold.ttf"),
   });
-
-  if (fontError) {
-    throw fontError;
-  }
 
   if (!fontsLoaded) {
     return null;
