@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import moment from "moment";
+import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -8,8 +9,11 @@ import TrashIcon from "@/assets/icons/trash.svg";
 import { AnalysisDetailsSkeleton } from "@/components/analysis/analysis-details-skeleton";
 import { AnalysisResultChart } from "@/components/analysis/analysis-result-chart";
 import { Button } from "@/components/button";
+import { DeleteAnalysisModal } from "@/components/analysis/delete-analysis-modal";
 import { Header } from "@/components/header";
 import { useAnalysisData } from "@/hooks/use-analysis-data";
+import AnalysisService from "@/services/api/analysis";
+import { showToast } from "@/services/toast";
 import type { AnalysesStackParamList } from "@/routes/private.routes";
 
 type AnalysisDetailsScreenProps = NativeStackScreenProps<
@@ -38,6 +42,27 @@ export default function AnalysisDetailsScreen({
   route,
 }: AnalysisDetailsScreenProps) {
   const { analysis, isLoading } = useAnalysisData(route.params.analysisId);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  async function handleDeleteAnalysis() {
+    setIsDeleting(true);
+
+    try {
+      await AnalysisService.deleteAnalysis(route.params.analysisId);
+
+      setIsDeleteModalVisible(false);
+      showToast("Análise excluída com sucesso!");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "AnalysesList" }],
+      });
+    } catch {
+      showToast("Não foi possível excluir a análise.");
+    } finally {
+      setIsDeleting(false);
+    }
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-[#F8F8F8]">
@@ -99,6 +124,7 @@ export default function AnalysisDetailsScreen({
               icon={<TrashIcon width={19} height={19} color="#F02F43" />}
               label="Excluir"
               variant="outline"
+              onPress={() => setIsDeleteModalVisible(true)}
             />
           </View>
         </ScrollView>
@@ -109,6 +135,13 @@ export default function AnalysisDetailsScreen({
           </Text>
         </View>
       )}
+
+      <DeleteAnalysisModal
+        isLoading={isDeleting}
+        visible={isDeleteModalVisible}
+        onCancel={() => setIsDeleteModalVisible(false)}
+        onConfirm={handleDeleteAnalysis}
+      />
     </SafeAreaView>
   );
 }

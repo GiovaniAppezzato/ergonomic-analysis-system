@@ -48,4 +48,8 @@ export default class AnalysisService {
 
     return data;
   }
+
+  static async deleteAnalysis(id: string): Promise<void> {
+    await api.delete(`/analyses/${id}`);
+  }
 }
