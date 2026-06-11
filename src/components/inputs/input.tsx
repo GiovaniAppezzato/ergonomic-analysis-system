@@ -19,20 +19,20 @@ export function Input({
   return (
     <View>
       {label ? (
-        <Text className="mb-2 font-sans-semibold text-base text-neutral-700">
+        <Text className="mb-2 font-sans-semibold text-base text-[#262626]">
           {label}
         </Text>
       ) : null}
 
       <View
-        className={`h-11 flex-row items-center rounded-sm border bg-white px-3 ${
+        className={`h-11 flex-row items-center rounded-md border bg-white px-3 ${
           error ? "border-red-500" : "border-neutral-300"
         }`}
       >
         {icon}
 
         <TextInput
-          className={`${icon ? "ml-2" : ""} h-full flex-1 py-0 font-sans text-base text-neutral-700 ${className ?? ""}`}
+          className={`${icon ? "ml-2" : ""} h-full flex-1 py-0 font-sans text-base text-[#262626] ${className ?? ""}`}
           placeholderTextColor="#737373"
           {...textInputProps}
         />

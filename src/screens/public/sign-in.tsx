@@ -55,7 +55,7 @@ export default function SignInScreen() {
       </View>
 
       <View
-        className="absolute -right-[55px] top-[180px] h-14 w-56 -rotate-90"
+        className="absolute -right-[45px] top-[180px] h-14 w-56 -rotate-90"
         pointerEvents="none"
       >
         <Image

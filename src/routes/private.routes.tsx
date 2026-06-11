@@ -5,19 +5,27 @@ import {
   BottomTabBarButtonProps,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import EmployeesIcon from "@/assets/icons/employees.svg";
 import FilesIcon from "@/assets/icons/files.svg";
 import HomeIcon from "@/assets/icons/home.svg";
 import SettingsIcon from "@/assets/icons/settings.svg";
-import HomeScreen from "@/screens/private/home";
+import AnalysesScreen from "@/screens/private/analyses";
+import AnalysisDetailsScreen from "@/screens/private/analysis-details";
 import PlaceholderScreen from "@/screens/private/placeholder";
 
 export type PrivateRoutesParamList = {
-  Home: undefined;
-  Files: undefined;
+  Analyses: undefined;
   Settings: undefined;
   Profile: undefined;
+};
+
+export type AnalysesStackParamList = {
+  AnalysesList: undefined;
+  AnalysisDetails: {
+    analysisId: string;
+  };
 };
 
 interface TabBarIconProps {
@@ -27,6 +35,7 @@ interface TabBarIconProps {
 }
 
 const Tab = createBottomTabNavigator<PrivateRoutesParamList>();
+const AnalysesStack = createNativeStackNavigator<AnalysesStackParamList>();
 
 function TabBarIcon({ icon: Icon, focused, color }: TabBarIconProps) {
   return (
@@ -53,10 +62,25 @@ function TabBarButton({
   );
 }
 
+function AnalysesRoutes() {
+  return (
+    <AnalysesStack.Navigator
+      initialRouteName="AnalysesList"
+      screenOptions={{ headerShown: false }}
+    >
+      <AnalysesStack.Screen name="AnalysesList" component={AnalysesScreen} />
+      <AnalysesStack.Screen
+        name="AnalysisDetails"
+        component={AnalysisDetailsScreen}
+      />
+    </AnalysesStack.Navigator>
+  );
+}
+
 export function PrivateRoutes() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Analyses"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -78,25 +102,13 @@ export function PrivateRoutes() {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Analyses"
+        component={AnalysesRoutes}
         options={{
           tabBarAccessibilityLabel: "Início",
           tabBarIcon: function renderHomeIcon({ color, focused }) {
             return (
               <TabBarIcon icon={HomeIcon} focused={focused} color={color} />
-            );
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Files"
-        component={PlaceholderScreen}
-        options={{
-          tabBarAccessibilityLabel: "Arquivos",
-          tabBarIcon: function renderFilesIcon({ color, focused }) {
-            return (
-              <TabBarIcon icon={FilesIcon} focused={focused} color={color} />
             );
           },
         }}

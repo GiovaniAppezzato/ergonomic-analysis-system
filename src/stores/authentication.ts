@@ -31,8 +31,7 @@ export const useAuthenticationStore = create<AuthenticationState>((set) => ({
   authenticate: async function authenticate({ email, password, rememberMe }) {
     await delay(MOCK_REQUEST_DELAY);
 
-    const credentialsAreValid =
-      email === MOCK_EMAIL && password === MOCK_PASSWORD;
+    const credentialsAreValid = email === MOCK_EMAIL && password === MOCK_PASSWORD;
 
     if (!credentialsAreValid) {
       return false;

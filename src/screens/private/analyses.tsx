@@ -1,14 +1,21 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import AddIcon from "@/assets/icons/add.svg";
-import { AnalysisCardSkeleton } from "@/components/analysis-card-skeleton";
-import { AnalysisCard } from "@/components/analysis-card";
+import { AnalysisCardSkeleton } from "@/components/analysis/analysis-card-skeleton";
+import { AnalysisCard } from "@/components/analysis/analysis-card";
 import { Button } from "@/components/button";
 import { Header } from "@/components/header";
 import { useAnalysesData } from "@/hooks/use-analyses-data";
+import type { AnalysesStackParamList } from "@/routes/private.routes";
 
-export default function HomeScreen() {
+type AnalysesScreenProps = NativeStackScreenProps<
+  AnalysesStackParamList,
+  "AnalysesList"
+>;
+
+export default function AnalysesScreen({ navigation }: AnalysesScreenProps) {
   const { analyses, isLoading } = useAnalysesData();
 
   return (
@@ -23,11 +30,11 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View>
-            <Text className="mt-[26px] text-center font-sans-semibold text-[20px] text-[#303030]">
+            <Text className="my-6 text-center font-sans-semibold text-[20px] text-[#262626]">
               AEP
             </Text>
 
-            <View className="mb-3.5 mt-4 flex-row items-center justify-between">
+            <View className="mb-4 flex-row items-center justify-between">
               {isLoading ? (
                 <View className="h-3 w-16 rounded bg-[#E5E5E5]" />
               ) : (
@@ -57,7 +64,16 @@ export default function HomeScreen() {
             </View>
           )
         }
-        renderItem={({ item }) => <AnalysisCard analysis={item} />}
+        renderItem={({ item }) => (
+          <AnalysisCard
+            analysis={item}
+            onPress={() =>
+              navigation.navigate("AnalysisDetails", {
+                analysisId: item.id,
+              })
+            }
+          />
+        )}
       />
     </SafeAreaView>
   );

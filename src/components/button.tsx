@@ -26,14 +26,14 @@ export function Button({
   ...pressableProps
 }: ButtonProps) {
   const isDisabled = disabled || isLoading;
-  const isOutline = variant === "outline";
+  const isPrimary = variant === "primary";
 
   return (
     <Pressable
-      className={`flex-row items-center justify-center ${
-        isOutline
-          ? "h-10 rounded-md border border-[#DEDEDE] bg-white px-2.5"
-          : "h-10 rounded-md bg-[#3157E9]"
+      className={`h-10 flex-row items-center justify-center rounded-md px-4 ${
+        isPrimary
+          ? "bg-[#2F54EB]"
+          : "border border-[#DEDEDE] bg-white"
       } ${isDisabled ? "opacity-60" : "opacity-100"} ${className}`}
       accessibilityRole="button"
       disabled={isDisabled}
@@ -41,17 +41,17 @@ export function Button({
     >
       {isLoading ? (
         <ActivityIndicator
-          color={isOutline ? "#3E3E3E" : "#FFFFFF"}
+          color={isPrimary ? "#FFFFFF" : "#3E3E3E"}
           size="small"
         />
       ) : (
         <>
-          {icon ? <View className="mr-3">{icon}</View> : null}
+          {icon ? <View className="mr-2">{icon}</View> : null}
           <Text
             className={
-              isOutline
-                ? "font-sans text-sm text-[#3E3E3E]"
-                : "font-sans-semibold text-base text-white"
+              isPrimary
+                ? "font-sans-semibold text-base text-white"
+                : "font-sans text-sm text-[#3E3E3E]"
             }
           >
             {label}

@@ -6,13 +6,16 @@ import { Analysis } from "@/interfaces/analysis";
 
 interface AnalysisCardProps {
   analysis: Analysis;
+  onPress: () => void;
 }
 
-export function AnalysisCard({ analysis }: AnalysisCardProps) {
+export function AnalysisCard({ analysis, onPress }: AnalysisCardProps) {
   return (
     <Pressable
       className="mb-3.5 h-[65px] flex-row items-center rounded-lg bg-white px-3.5"
+      accessibilityLabel={`Abrir detalhes de ${analysis.title}`}
       accessibilityRole="button"
+      onPress={onPress}
     >
       <View className="h-10 w-10 items-center justify-center rounded bg-[#F8F8F8]">
         <ReportsIcon width={21} height={21} color="#002FBB" />
