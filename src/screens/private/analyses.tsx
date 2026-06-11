@@ -49,6 +49,7 @@ export default function AnalysesScreen({ navigation }: AnalysesScreenProps) {
                 icon={<AddIcon width={20} height={20} color="#333333" />}
                 label="Nova análise"
                 variant="outline"
+                onPress={() => navigation.navigate("CreateAnalysis")}
               />
             </View>
           </View>

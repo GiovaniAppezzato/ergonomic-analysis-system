@@ -12,3 +12,7 @@ export interface GetAnalysesParams {
 export type GetAnalysesResponse = Analysis[];
 
 export type GetAnalysisResponse = Analysis;
+
+export type CreateAnalysisRequest = Omit<Analysis, "id">;
+
+export type CreateAnalysisResponse = Analysis;

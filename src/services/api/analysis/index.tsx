@@ -1,5 +1,7 @@
 import api from "@/services/api";
 import {
+  CreateAnalysisRequest,
+  CreateAnalysisResponse,
   GetAnalysisResponse,
   GetAnalysesParams,
   GetAnalysesResponse,
@@ -18,6 +20,17 @@ export default class AnalysisService {
 
   static async getAnalysis(id: string): Promise<GetAnalysisResponse> {
     const { data } = await api.get<GetAnalysisResponse>(`/analyses/${id}`);
+
+    return data;
+  }
+
+  static async createAnalysis(
+    payload: CreateAnalysisRequest,
+  ): Promise<CreateAnalysisResponse> {
+    const { data } = await api.post<CreateAnalysisResponse>(
+      "/analyses",
+      payload,
+    );
 
     return data;
   }

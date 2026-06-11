@@ -13,6 +13,7 @@ import HomeIcon from "@/assets/icons/home.svg";
 import SettingsIcon from "@/assets/icons/settings.svg";
 import AnalysesScreen from "@/screens/private/analyses";
 import AnalysisDetailsScreen from "@/screens/private/analysis-details";
+import CreateAnalysisScreen from "@/screens/private/create-analysis";
 import PlaceholderScreen from "@/screens/private/placeholder";
 
 export type PrivateRoutesParamList = {
@@ -23,6 +24,7 @@ export type PrivateRoutesParamList = {
 
 export type AnalysesStackParamList = {
   AnalysesList: undefined;
+  CreateAnalysis: undefined;
   AnalysisDetails: {
     analysisId: string;
   };
@@ -69,6 +71,10 @@ function AnalysesRoutes() {
       screenOptions={{ headerShown: false }}
     >
       <AnalysesStack.Screen name="AnalysesList" component={AnalysesScreen} />
+      <AnalysesStack.Screen
+        name="CreateAnalysis"
+        component={CreateAnalysisScreen}
+      />
       <AnalysesStack.Screen
         name="AnalysisDetails"
         component={AnalysisDetailsScreen}
