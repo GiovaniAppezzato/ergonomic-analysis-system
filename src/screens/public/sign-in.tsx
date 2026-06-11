@@ -1,11 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Ionicons } from "@expo/vector-icons";
-import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Controller, useForm } from "react-hook-form";
 
 import logo from "@/assets/logo.png";
 import SignInDecoration from "@/assets/sign-in-decoration.svg";
+import { Button } from "@/components/button";
 import { Input } from "@/components/inputs/input";
 import { PasswordInput } from "@/components/inputs/password-input";
 import { SignInFormData, signInSchema } from "@/schemas/sign-in-schema";
@@ -141,22 +142,12 @@ export default function SignInScreen() {
           )}
         />
 
-        <Pressable
-          className={`mt-8 h-10 items-center justify-center rounded-sm bg-[#3157E9] ${
-            isSubmitting ? "opacity-60" : "opacity-100"
-          }`}
-          accessibilityRole="button"
-          disabled={isSubmitting}
+        <Button
+          className="mt-8"
+          label="Login"
+          isLoading={isSubmitting}
           onPress={handleSubmit(onSubmit)}
-        >
-          {isSubmitting ? (
-            <ActivityIndicator color="#FFFFFF" size="small" />
-          ) : (
-            <Text className="font-sans-semibold text-base text-white">
-              Login
-            </Text>
-          )}
-        </Pressable>
+        />
 
         <Pressable className="mt-8 self-center" accessibilityRole="button">
           <Text className="font-sans text-sm text-[#3157E9]">
