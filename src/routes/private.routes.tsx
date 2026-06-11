@@ -16,6 +16,7 @@ import AnalysisDetailsScreen from "@/screens/private/analysis-details";
 import CreateAnalysisScreen from "@/screens/private/create-analysis";
 import EditAnalysisScreen from "@/screens/private/edit-analysis";
 import PlaceholderScreen from "@/screens/private/placeholder";
+import ProfileScreen from "@/screens/private/profile";
 
 export type PrivateRoutesParamList = {
   Analyses: undefined;
@@ -141,7 +142,7 @@ export function PrivateRoutes() {
       />
       <Tab.Screen
         name="Profile"
-        component={PlaceholderScreen}
+        component={ProfileScreen}
         options={{
           tabBarAccessibilityLabel: "Perfil",
           tabBarIcon: function renderProfileIcon({ color, focused }) {
