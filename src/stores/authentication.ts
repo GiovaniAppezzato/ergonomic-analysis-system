@@ -7,7 +7,6 @@ import { delay } from "@/utils/delay";
 
 const MOCK_EMAIL = "teste@kinebot.com.br";
 const MOCK_PASSWORD = "123456";
-const MOCK_REQUEST_DELAY = 1000;
 const AUTH_TOKEN_STORAGE_KEY = "@kinebot:access-token";
 
 interface AuthenticateInput {
@@ -21,6 +20,7 @@ interface AuthenticationState {
   accessToken: string | null;
   isSigned: boolean;
   authenticate: (input: AuthenticateInput) => Promise<boolean>;
+  logout: () => Promise<void>;
 }
 
 export const useAuthenticationStore = create<AuthenticationState>((set) => ({
@@ -29,9 +29,10 @@ export const useAuthenticationStore = create<AuthenticationState>((set) => ({
   isSigned: false,
 
   authenticate: async function authenticate({ email, password, rememberMe }) {
-    await delay(MOCK_REQUEST_DELAY);
+    await delay(1000);
 
-    const credentialsAreValid = email === MOCK_EMAIL && password === MOCK_PASSWORD;
+    const credentialsAreValid =
+      email === MOCK_EMAIL && password === MOCK_PASSWORD;
 
     if (!credentialsAreValid) {
       return false;
@@ -51,5 +52,17 @@ export const useAuthenticationStore = create<AuthenticationState>((set) => ({
     set({ user, accessToken, isSigned: true });
 
     return true;
+  },
+
+  logout: async function logout() {
+    await delay(1000);
+
+    await AsyncStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+
+    set({
+      user: null,
+      accessToken: null,
+      isSigned: false,
+    });
   },
 }));

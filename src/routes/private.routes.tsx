@@ -1,4 +1,4 @@
-import { ComponentType } from "react";
+import { ComponentType, useState } from "react";
 import { Pressable, View } from "react-native";
 import { SvgProps } from "react-native-svg";
 import {
@@ -8,20 +8,22 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import EmployeesIcon from "@/assets/icons/employees.svg";
-import FilesIcon from "@/assets/icons/files.svg";
 import HomeIcon from "@/assets/icons/home.svg";
-import SettingsIcon from "@/assets/icons/settings.svg";
+import LogoutIcon from "@/assets/icons/logout.svg";
+import { LogoutModal } from "@/components/auth/logout-modal";
 import AnalysesScreen from "@/screens/private/analyses";
 import AnalysisDetailsScreen from "@/screens/private/analysis-details";
 import CreateAnalysisScreen from "@/screens/private/create-analysis";
 import EditAnalysisScreen from "@/screens/private/edit-analysis";
 import PlaceholderScreen from "@/screens/private/placeholder";
 import ProfileScreen from "@/screens/private/profile";
+import { showToast } from "@/services/toast";
+import { useAuthenticationStore } from "@/stores/authentication";
 
 export type PrivateRoutesParamList = {
   Analyses: undefined;
-  Settings: undefined;
   Profile: undefined;
+  Logout: undefined;
 };
 
 export type AnalysesStackParamList = {
@@ -93,69 +95,98 @@ function AnalysesRoutes() {
 }
 
 export function PrivateRoutes() {
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const logout = useAuthenticationStore((state) => state.logout);
+
+  async function handleLogout() {
+    try {
+      setIsLoggingOut(true);
+      await logout();
+    } catch (error) {
+      showToast("Não foi possível sair da conta.");
+      setIsLoggingOut(false);
+    }
+  }
+
   return (
-    <Tab.Navigator
-      initialRouteName="Analyses"
-      screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarActiveTintColor: "#002FBB",
-        tabBarInactiveTintColor: "#505050",
-        tabBarButton: TabBarButton,
-        tabBarIconStyle: {
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        },
-        tabBarStyle: {
-          height: 72,
-          paddingHorizontal: 25,
-          paddingVertical: 6,
-          backgroundColor: "#FFFFFF",
-          borderTopColor: "#E8E8E8",
-        },
-      }}
-    >
-      <Tab.Screen
-        name="Analyses"
-        component={AnalysesRoutes}
-        options={{
-          tabBarAccessibilityLabel: "Início",
-          tabBarIcon: function renderHomeIcon({ color, focused }) {
-            return (
-              <TabBarIcon icon={HomeIcon} focused={focused} color={color} />
-            );
+    <>
+      <Tab.Navigator
+        initialRouteName="Analyses"
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: "#002FBB",
+          tabBarInactiveTintColor: "#505050",
+          tabBarButton: TabBarButton,
+          tabBarIconStyle: {
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          },
+          tabBarStyle: {
+            height: 72,
+            paddingHorizontal: 25,
+            paddingVertical: 6,
+            backgroundColor: "#FFFFFF",
+            borderTopColor: "#E8E8E8",
           },
         }}
+      >
+        <Tab.Screen
+          name="Analyses"
+          component={AnalysesRoutes}
+          options={{
+            tabBarAccessibilityLabel: "Início",
+            tabBarIcon: function renderHomeIcon({ color, focused }) {
+              return (
+                <TabBarIcon icon={HomeIcon} focused={focused} color={color} />
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            tabBarAccessibilityLabel: "Perfil",
+            tabBarIcon: function renderProfileIcon({ color, focused }) {
+              return (
+                <TabBarIcon
+                  icon={EmployeesIcon}
+                  focused={focused}
+                  color={color}
+                />
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Logout"
+          component={PlaceholderScreen}
+          listeners={{
+            tabPress: (event) => {
+              event.preventDefault();
+              setIsLogoutModalVisible(true);
+            },
+          }}
+          options={{
+            tabBarAccessibilityLabel: "Sair",
+            tabBarIcon: function renderLogoutIcon({ color }) {
+              return (
+                <TabBarIcon icon={LogoutIcon} focused={false} color={color} />
+              );
+            },
+          }}
+        />
+      </Tab.Navigator>
+
+      <LogoutModal
+        isLoading={isLoggingOut}
+        visible={isLogoutModalVisible}
+        onCancel={() => setIsLogoutModalVisible(false)}
+        onConfirm={handleLogout}
       />
-      <Tab.Screen
-        name="Settings"
-        component={PlaceholderScreen}
-        options={{
-          tabBarAccessibilityLabel: "Configurações",
-          tabBarIcon: function renderSettingsIcon({ color, focused }) {
-            return (
-              <TabBarIcon icon={SettingsIcon} focused={focused} color={color} />
-            );
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarAccessibilityLabel: "Perfil",
-          tabBarIcon: function renderProfileIcon({ color, focused }) {
-            return (
-              <TabBarIcon
-                icon={EmployeesIcon}
-                focused={focused}
-                color={color}
-              />
-            );
-          },
-        }}
-      />
-    </Tab.Navigator>
+    </>
   );
 }
