@@ -1,5 +1,6 @@
 import moment from "moment";
 
+import { Analysis } from "@/interfaces/analysis";
 import { CreateAnalysisFormData } from "@/schemas/create-analysis-schema";
 import { CreateAnalysisRequest } from "@/services/api/analysis/interfaces";
 
@@ -49,5 +50,31 @@ export function createAnalysisPayload(
         percentage: Number(data.seriousAndImminent),
       },
     ],
+  };
+}
+
+export function analysisToFormData(analysis: Analysis): CreateAnalysisFormData {
+  function getPercentage(key: Analysis["result"][number]["key"]) {
+    return String(
+      analysis.result.find((item) => item.key === key)?.percentage ?? 0,
+    );
+  }
+
+  return {
+    title: analysis.title,
+    company: analysis.company,
+    industrialPlant: analysis.industrialPlant,
+    sector: analysis.sector,
+    workstation: analysis.workstation,
+    activity: analysis.activity,
+    evaluator: analysis.evaluator,
+    analysisDate: moment(analysis.analysisDate, "YYYY-MM-DD", true).format(
+      "DD/MM/YYYY",
+    ),
+    acceptable: getPercentage("acceptable"),
+    moderate: getPercentage("moderate"),
+    high: getPercentage("high"),
+    veryHigh: getPercentage("veryHigh"),
+    seriousAndImminent: getPercentage("seriousAndImminent"),
   };
 }

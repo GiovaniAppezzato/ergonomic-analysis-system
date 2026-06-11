@@ -16,3 +16,7 @@ export type GetAnalysisResponse = Analysis;
 export type CreateAnalysisRequest = Omit<Analysis, "id">;
 
 export type CreateAnalysisResponse = Analysis;
+
+export type UpdateAnalysisRequest = Omit<Analysis, "id">;
+
+export type UpdateAnalysisResponse = Analysis;

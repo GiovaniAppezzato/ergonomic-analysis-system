@@ -86,6 +86,11 @@ export default function AnalysisDetailsScreen({
               icon={<EditIcon width={19} height={19} color="#003CD2" />}
               label="Editar"
               variant="outline"
+              onPress={() =>
+                navigation.navigate("EditAnalysis", {
+                  analysisId: analysis.id,
+                })
+              }
             />
 
             <Button

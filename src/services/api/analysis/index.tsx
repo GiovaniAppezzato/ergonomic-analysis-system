@@ -5,6 +5,8 @@ import {
   GetAnalysisResponse,
   GetAnalysesParams,
   GetAnalysesResponse,
+  UpdateAnalysisRequest,
+  UpdateAnalysisResponse,
 } from "@/services/api/analysis/interfaces";
 
 export default class AnalysisService {
@@ -29,6 +31,18 @@ export default class AnalysisService {
   ): Promise<CreateAnalysisResponse> {
     const { data } = await api.post<CreateAnalysisResponse>(
       "/analyses",
+      payload,
+    );
+
+    return data;
+  }
+
+  static async updateAnalysis(
+    id: string,
+    payload: UpdateAnalysisRequest,
+  ): Promise<UpdateAnalysisResponse> {
+    const { data } = await api.put<UpdateAnalysisResponse>(
+      `/analyses/${id}`,
       payload,
     );
 
