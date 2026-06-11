@@ -4,23 +4,25 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import logo from "@/assets/logo.png";
 import { useApplicationStore } from "@/stores/application";
+import { useAuthenticationStore } from "@/stores/authentication";
 
 export function SplashScreen() {
   const { updateIsLoadingApp } = useApplicationStore();
+  const { restoreAuthentication } = useAuthenticationStore();
 
   useEffect(() => {
     async function init() {
       try {
-        // @todo: Check authentication
+        await restoreAuthentication();
       } catch (error) {
-        // @todo: Handle error
+        console.log("An error occurred while restoring authentication.");
       } finally {
         updateIsLoadingApp(false);
       }
     }
 
     init();
-  }, [updateIsLoadingApp]);
+  }, [restoreAuthentication, updateIsLoadingApp]);
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center bg-white px-8">

@@ -20,6 +20,7 @@ interface AuthenticationState {
   accessToken: string | null;
   isSigned: boolean;
   authenticate: (input: AuthenticateInput) => Promise<boolean>;
+  restoreAuthentication: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -52,6 +53,23 @@ export const useAuthenticationStore = create<AuthenticationState>((set) => ({
     set({ user, accessToken, isSigned: true });
 
     return true;
+  },
+
+  restoreAuthentication: async function restoreAuthentication() {
+    const accessToken = await AsyncStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+
+    if (!accessToken) {
+      return;
+    }
+
+    set({
+      user: {
+        name: "Usuário Kinebot",
+        email: MOCK_EMAIL,
+      },
+      accessToken,
+      isSigned: true,
+    });
   },
 
   logout: async function logout() {
