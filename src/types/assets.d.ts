@@ -3,3 +3,9 @@ declare module "*.png" {
 
   export default source;
 }
+
+declare module "*.svg" {
+  const component: React.FC<import("react-native-svg").SvgProps>;
+
+  export default component;
+}

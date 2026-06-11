@@ -15,7 +15,7 @@ export function SplashScreen() {
       } catch (error) {
         // @todo: Handle error
       } finally {
-        // @todo: Set isLoadingApp to false
+        updateIsLoadingApp(false);
       }
     }
 
