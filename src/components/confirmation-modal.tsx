@@ -1,21 +1,29 @@
+import { ReactNode } from "react";
 import { ActivityIndicator, Modal, Pressable, Text, View } from "react-native";
 
-import TrashIcon from "@/assets/icons/trash.svg";
 import { Button } from "@/components/button";
 
-interface DeleteAnalysisModalProps {
+interface ConfirmationModalProps {
+  confirmLabel: string;
+  description: string;
+  icon: ReactNode;
   isLoading?: boolean;
+  title: string;
   visible: boolean;
   onCancel: () => void;
   onConfirm: () => void;
 }
 
-export function DeleteAnalysisModal({
+export function ConfirmationModal({
+  confirmLabel,
+  description,
+  icon,
   isLoading = false,
+  title,
   visible,
   onCancel,
   onConfirm,
-}: DeleteAnalysisModalProps) {
+}: ConfirmationModalProps) {
   return (
     <Modal
       animationType="fade"
@@ -35,15 +43,14 @@ export function DeleteAnalysisModal({
 
         <View className="w-full max-w-[340px] rounded-xl bg-white px-5 pb-5 pt-6">
           <View className="h-12 w-12 items-center justify-center self-center rounded-full bg-[#FFF0F1]">
-            <TrashIcon width={23} height={23} color="#F02F43" />
+            {icon}
           </View>
 
           <Text className="mt-4 text-center font-sans-semibold text-lg text-[#262626]">
-            Excluir análise?
+            {title}
           </Text>
           <Text className="mt-2 text-center font-sans text-sm leading-5 text-[#666666]">
-            Esta ação é permanente e não poderá ser desfeita. Deseja excluir
-            esta análise?
+            {description}
           </Text>
 
           <View className="mt-6 flex-row gap-3">
@@ -67,7 +74,7 @@ export function DeleteAnalysisModal({
                 <ActivityIndicator color="#FFFFFF" size="small" />
               ) : (
                 <Text className="font-sans-semibold text-base text-white">
-                  Excluir
+                  {confirmLabel}
                 </Text>
               )}
             </Pressable>

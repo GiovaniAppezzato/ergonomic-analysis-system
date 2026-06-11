@@ -9,7 +9,7 @@ import TrashIcon from "@/assets/icons/trash.svg";
 import { AnalysisDetailsSkeleton } from "@/components/analysis/analysis-details-skeleton";
 import { AnalysisResultChart } from "@/components/analysis/analysis-result-chart";
 import { Button } from "@/components/button";
-import { DeleteAnalysisModal } from "@/components/analysis/delete-analysis-modal";
+import { ConfirmationModal } from "@/components/confirmation-modal";
 import { Header } from "@/components/header";
 import { useAnalysisData } from "@/hooks/use-analysis-data";
 import AnalysisService from "@/services/api/analysis";
@@ -136,8 +136,12 @@ export default function AnalysisDetailsScreen({
         </View>
       )}
 
-      <DeleteAnalysisModal
+      <ConfirmationModal
+        confirmLabel="Excluir"
+        description="Esta ação é permanente e não poderá ser desfeita. Deseja excluir esta análise?"
+        icon={<TrashIcon width={23} height={23} color="#F02F43" />}
         isLoading={isDeleting}
+        title="Excluir análise?"
         visible={isDeleteModalVisible}
         onCancel={() => setIsDeleteModalVisible(false)}
         onConfirm={handleDeleteAnalysis}

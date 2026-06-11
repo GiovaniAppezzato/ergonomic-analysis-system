@@ -1,16 +1,23 @@
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import EmployeesIcon from "@/assets/icons/employees.svg";
 import { Header } from "@/components/header";
+import type { PrivateRoutesParamList } from "@/routes/private.routes";
 import { useAuthenticationStore } from "@/stores/authentication";
 
-export default function ProfileScreen() {
+type ProfileScreenProps = BottomTabScreenProps<
+  PrivateRoutesParamList,
+  "Profile"
+>;
+
+export default function ProfileScreen({ navigation }: ProfileScreenProps) {
   const { user } = useAuthenticationStore();
 
   return (
     <SafeAreaView className="flex-1 bg-[#F8F8F8]">
-      <Header />
+      <Header onPress={() => navigation.navigate("Analyses")} />
 
       <View className="flex-1 px-5 pt-6">
         <Text className="text-center font-sans-semibold text-xl text-[#262626]">

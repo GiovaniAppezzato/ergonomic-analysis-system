@@ -10,7 +10,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EmployeesIcon from "@/assets/icons/employees.svg";
 import HomeIcon from "@/assets/icons/home.svg";
 import LogoutIcon from "@/assets/icons/logout.svg";
-import { LogoutModal } from "@/components/auth/logout-modal";
+import { ConfirmationModal } from "@/components/confirmation-modal";
 import AnalysesScreen from "@/screens/private/analyses";
 import AnalysisDetailsScreen from "@/screens/private/analysis-details";
 import CreateAnalysisScreen from "@/screens/private/create-analysis";
@@ -181,8 +181,12 @@ export function PrivateRoutes() {
         />
       </Tab.Navigator>
 
-      <LogoutModal
+      <ConfirmationModal
+        confirmLabel="Sair"
+        description="Tem certeza de que deseja sair da sua conta?"
+        icon={<LogoutIcon width={24} height={24} color="#F02F43" />}
         isLoading={isLoggingOut}
+        title="Sair da conta?"
         visible={isLogoutModalVisible}
         onCancel={() => setIsLogoutModalVisible(false)}
         onConfirm={handleLogout}
